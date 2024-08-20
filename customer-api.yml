@@ -1,0 +1,36 @@
+openapi: 3.0.3
+info:
+  title: STD23109 - TD1 API
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@std230109.com
+  license:
+    name: MIT License
+
+servers:
+  - url: https://localhost.std230109.com
+
+paths:
+  /customers:
+    get:
+      summary: Retrieve a list of customers
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Customer"
+
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
