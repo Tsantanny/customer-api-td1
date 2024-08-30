@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: STD23109 - TD4 API
+  version: 1.0.2
+  contact:
+    name: API Support
+    email: support@std230109.com
+  license:
+    name: MIT License
+
+servers:
+  - url: https://localhost.std230109.com
+
+paths:
+  /customers/{customerId}/orders:
+    get:
+      summary: Retrieve a list of orders for a customer
+      tags:
+        - order
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+
+    post:
+      summary: Create a new order for a customer
+      tags:
+        - order
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrder"
+      responses:
+        "201":
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+
+  /customers/{customerId}/orders/{orderId}:
+    put:
+      summary: Update an existing order for a customer
+      tags:
+        - order
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+      responses:
+        "200":
+          description: Order updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+
+components:
+  schemas:
+    Meal:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+          format: float
+
+
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        reference:
+          type: string
+        meals:
+          type: array
+          items:
+            type: object
+            properties:
+              meal:
+                $ref: "#/components/schemas/Meal"
+              quantity:
+                type: integer
+        orderDatetime:
+          type: string
+          format: date-time
+
+    CreateOrder:
+      type: object
+      properties:
+        meals:
+          type: array
+          items:
+            type: object
+            properties:
+              mealId:
+                type: string
+              quantity:
+                type: integer
