@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  title: STD23109 - TD5 API
+  version: 1.0.3
+  contact:
+    name: API Support
+    email: support@std230109.com
+  license:
+    name: MIT License
+
+servers:
+  - url: https://localhost.std230109.com
+
+paths:
+  /customers/{customerId}:
+    put:
+      summary: Update a customer
+      tags:
+        - customer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Customer"
+      responses:
+        "200":
+          description: Customer updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+
+    patch:
+      summary: Partially update a customer
+      tags:
+        - customer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PartialCustomer"
+      responses:
+        "200":
+          description: Customer partially updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+
+  /meals/{mealId}:
+    put:
+      summary: Update a meal
+      tags:
+        - meal
+      parameters:
+        - name: mealId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Meal"
+      responses:
+        "200":
+          description: Meal updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Meal"
+
+    patch:
+      summary: Partially update a meal
+      tags:
+        - meal
+      parameters:
+        - name: mealId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PartialMeal"
+      responses:
+        "200":
+          description: Meal partially updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Meal"
+
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+
+    PartialCustomer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          nullable: true
+        age:
+          type: integer
+          nullable: true
+
+    Meal:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+          format: float
+
+    PartialMeal:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: float
+          nullable: true
